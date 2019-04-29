@@ -1,26 +1,9 @@
 import collections
 
-
-a = {1, 2, 3, 1, 1, 4} #set
-print(a)
-print(type(a))
-
-b = (1, 2, 3, 4, 5, 1) #tuple
-print(b)
-print(type(b))
-
-c = [1, 2, 3, 3, 2, 1] #list
-c.sort()
-print(c)
-print(type(c))
-
-d = {'Russia': 'Moscow', 'Kazakhstan': 'Nursultan'} #dict
-print(d['Kazakhstan'])
-print(type(d))
-
-# e = collections.deque([1, 2, 3, 4, 5]) #deque
-# print(a)
-# print(type(e))
+# 1. Пользователь вводит данные о количестве предприятий, их наименования и прибыль за 4 квартала (т.е. 4 отдельных
+# числа) для каждого предприятия.. Программа должна определить среднюю прибыль (за год для всех предприятий)
+# и вывести наименования предприятий, чья прибыль выше среднего и отдельно вывести наименования предприятий,
+# чья прибыль ниже среднего.
 
 company = collections.namedtuple('company', ['name', 'money'])
 
@@ -30,10 +13,25 @@ corps = []
 
 for i in range(1, num + 1):
     name = input(f'Введите название {i}-го предприятия: ')
-    money = []
+    money = 0
     for j in range(1, 5):
-        money.append(int(input(f"Введите прибыль придприятия {name} за {j} квартал: ")))
-   corps.append(company(name, money[0], money[1], money[2], money[3]))
+        money += (int(input(f"Введите прибыль придприятия {name} за {j} квартал: ")))
+    corps.append(company(name=name, money=money/4))
 
-print(corps)
+money_average = 0
+for i in corps:
+    money_average += i.money
+money_average /= len(corps)
 
+print(f'Средняя прибыль всех предприятий за год: {money_average}')
+
+rich = []
+poor = []
+for i in corps:
+    if i.money < money_average:
+        poor.append(i.name)
+    else:
+        rich.append(i.name)
+
+print(f'Компании, зарабатывающие ниже среднего: {poor}')
+print(f'Компании, зарабатывающие выше среднего: {rich}')
